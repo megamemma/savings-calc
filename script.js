@@ -6,12 +6,24 @@ function updateDisplay() {
     display.value = expression;
 }
 
-// buttons on the site:
-document.querySelectorAll("button[data-key]").forEach(btn => {
-    btn.addEventListener("click", () => {
-        expression += btn.dataset.key;
-        updateDisplay();
-    });
+// Array with buttons instead of in HTML:
+const keys = ["1","2","3","4","5","6","7","8","9","0","+","-","*","/"];
+const keypad = document.querySelector("#buttons");
+
+
+keys.forEach(k => {
+    const btn = document.createElement("button");
+    btn.textContent = k;
+    btn.dataset.key = k;
+    keypad.appendChild(btn);
 });
 
-// keyboard (NumPad)
+keypad.addEventListener("click", (event) => {
+    if (event.target.tagName !== "BUTTON") return;
+    
+    const key = event.target.dataset.key;
+    if (!key) return;
+
+    expression += key;
+    updateDisplay();
+});
